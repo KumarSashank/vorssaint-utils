@@ -175,7 +175,7 @@ enum NotchTests {
             let activities = FeatureStrings.notchActivities(language)
             let notices = [text.onBattery, text.charging, text.charged, text.lowBattery].map {
                 NotchNotice(event: .battery, title: $0, detail: "100%", symbol: "battery.100percent.bolt")
-            } + [NotchNotice(event: .accessory, title: "Wireless Headphones", detail: activities.connected, symbol: "headphones"),
+            } + [NotchNotice(event: .accessory, title: activities.connected, detail: "Wireless Headphones", symbol: "headphones"),
                  NotchNotice(event: .accessory, title: "Wireless Keyboard", detail: activities.lowBattery + " · 15%",
                              symbol: "keyboard", level: 0.15)]
             for physical in [false, true] {
@@ -184,12 +184,11 @@ enum NotchTests {
                                                  cameraWidth: physical ? 180 : 0, menuBarHeight: height)
                     for notice in notices {
                         let wing = geometry.noticeWingWidth(preferred: notice.preferredWingWidth)
-                        let content = wing - (notice.event == .battery ? 32 : 16)
-                        suite.expect((notice.event == .accessory && notice.level == nil && wing == 160)
-                               || width(notice.level == nil ? notice.title : notice.detail) + 18 + 8 <= content,
-                               "power labels fit and long accessory names use bounded truncation in \(language)")
+                        let content = wing - 16 - notice.cameraGap
+                        suite.expect(width(notice.level == nil ? notice.title : notice.detail) + 18 + 8 <= content,
+                               "power labels and connection status fit beside their icon in \(language)")
                         suite.expect(notice.level != nil || width(notice.detail) <= content,
-                               "connection status and charge percentage fit the opposite wing in \(language)")
+                               "a device name and a charge percentage fit the opposite wing in \(language)")
                         let size = geometry.noticeSize(wingWidth: notice.preferredWingWidth)
                         suite.expect(size.width == wing * 2 + geometry.cameraWidth && size.height == height
                                && screen.contains(geometry.frame(for: size)),
@@ -208,10 +207,22 @@ enum NotchTests {
                              "every percentage fits beside its icon while the opposite meter remains readable")
             }
         }
-        let long = NotchNotice(event: .accessory, title: String(repeating: "Device ", count: 100),
-                               detail: "Connected", symbol: "headphones")
-        suite.expect(long.preferredWingWidth == 160 && long.accessibilityText.contains(long.title),
+        let long = NotchNotice(event: .accessory, title: "Connected",
+                               detail: String(repeating: "Device ", count: 100), symbol: "headphones")
+        suite.expect(long.preferredWingWidth == 160 && long.accessibilityText.contains(long.detail),
                "very long device names have bounded visual width and retain their full accessible name")
+        // The name takes a wing of its own instead of sharing one with the
+        // icon, so a common name no longer needs shortening.
+        let trackpad = NotchNotice(event: .accessory, title: "Connected", detail: "Alex’s Magic Trackpad",
+                                   symbol: "rectangle.and.hand.point.up.left")
+        suite.expect(trackpad.preferredWingWidth < 160
+               && width(trackpad.detail) + 16 + trackpad.cameraGap <= trackpad.preferredWingWidth,
+               "a device name fits its wing whole, with the gap its text keeps from the camera")
+        suite.expect(trackpad.readsFromEnds && trackpad.cameraGap > 0
+               && !NotchNotice(event: .volume, title: "Volume", detail: "40%", symbol: "speaker", level: 0.4).readsFromEnds
+               && NotchNotice(event: .volume, title: "Volume", detail: "40%", symbol: "speaker", level: 0.4).cameraGap == 0
+               && NotchNotice(event: .battery, title: "Charging", detail: "80%", symbol: "battery.100percent.bolt").cameraGap == 16,
+               "text reads from the island's ends while levels keep hugging the camera")
         let narrow = NotchGeometry(screen: CGRect(x: 0, y: 0, width: 640, height: 480),
                                    safeAreaTop: 32, cameraWidth: 210)
         let size = narrow.noticeSize(wingWidth: long.preferredWingWidth)
@@ -1151,22 +1162,41 @@ enum NotchTests {
                < NotchMotion.duration(from: idle, to: roomy.notice),
                "horizontal dismissal remains quicker than opening")
         let compactMusic = roomy.compactMusicGeometry
-        suite.expect(compactMusic.compactActivityWingWidth == 44
+        suite.expect(compactMusic.compactActivityWingWidth == 34
                && compactMusic.compactActivityCameraGap == roomy.cameraWidth
-               && compactMusic.compactActivitySize.width == roomy.cameraWidth + 88,
-               "compact music uses narrow wings without padding against the physical camera")
-        for available: CGFloat in [0, 27, 43, 44, 45, 55, 56, 100, .nan, .infinity] {
+               && compactMusic.compactActivitySize.width == roomy.cameraWidth + 68,
+               "compact music wings beside a physical camera hold only the cover and the bars")
+        for safeArea: CGFloat in [32, 33, 37.5, 38] {
+            let music = NotchGeometry(screen: menuScreen, safeAreaTop: safeArea, cameraWidth: 185,
+                                      menuBarHeight: 24, compactSideRoom: 100).compactMusicGeometry
+            let height = music.compactActivitySize.height
+            let shoulder = NotchLayout.shoulder(height: height)
+            let corner = NotchLayout.surfaceRadius(height: height)
+            let side = music.compactMusicArtworkSide
+            let gap = (height - side) / 2
+            let radius = music.compactMusicArtworkRadius
+            let inset = music.compactMusicArtworkInset
+            suite.expect(abs(inset - shoulder - gap) < 0.001 && abs(inset + radius - shoulder - corner) < 0.001
+                   && abs(height - gap - radius - (height - corner)) < 0.001,
+                   "the cover keeps one gap from the strip's end, top and bottom, its corners concentric with the strip's")
+            let bars = music.compactMusicBarsInset + NotchLayout.compactMusicBarsWidth
+            suite.expect(music.compactActivityWingWidth == max(inset + side, bars).rounded(.up)
+                   && music.compactActivityWingWidth < 44,
+                   "each music wing ends where the cover or the bars end, snug against the camera")
+        }
+        for available: CGFloat in [0, 27, 33, 34, 43, 44, 45, 55, 56, 100, .nan, .infinity] {
             var tight = roomy
             tight.compactSideRoom = available
             let music = tight.compactMusicGeometry
             suite.expect(!music.compactActivityUsesFooter && music.compactActivitySize.height == roomy.menuBarHeight
                    && music.compactActivityTopPadding == 0,
                    "compact music never grows or moves below the menu bar when space changes")
-            if available.isFinite && available >= 44 {
-                let cover = min(26, music.menuBarHeight - 6, music.compactActivityWingWidth - 20)
-                suite.expect(cover >= 24 && cover + 20 <= music.compactActivityWingWidth
+            if available.isFinite && available >= compactMusic.compactActivityWingWidth {
+                suite.expect(music.compactActivityWingWidth == compactMusic.compactActivityWingWidth
+                       && music.compactMusicArtworkSide == 22
+                       && music.compactMusicArtworkInset + music.compactMusicArtworkSide <= music.compactActivityWingWidth
                        && music.compactActivityCameraGap == roomy.cameraWidth,
-                       "narrow music wings keep a full cover, inner clearance and outer margin beside the camera")
+                       "fitted music wings keep a full cover and its outer margin beside the camera")
             } else {
                 suite.expect(music.compactActivityWingWidth == 0,
                        "unavailable menu space cannot push music into the physical camera or adjacent menus")
