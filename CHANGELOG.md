@@ -7,7 +7,7 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Summary
-Clipboard History images open in the Screenshot Editor, the capture preview can pin a screenshot directly, and Settings adds Back and Forward buttons. Window Layout adds quarter rows, quarter columns and vertical thirds, smooth scrolling gains an adjustable coast, and the menu panel opens with the native macOS animation. Repeating Top Half or Bottom Half moves a window to a stacked display, the menu bar disk reading can show available or used space, App Switcher separates apps without open windows, Homebrew's Installed list folds dependencies under the packages that need them, and Port Manager marks ports other devices on the network may reach. Settings search keeps every typed letter in the search field, and Clear all permissions and full uninstall report a refused password request instead of claiming success.
+Clipboard History images open in the Screenshot Editor, the capture preview can pin a screenshot directly, and Settings adds Back and Forward buttons. Window Layout adds quarter rows, quarter columns and vertical thirds, smooth scrolling gains an adjustable coast, and the menu panel opens with the native macOS animation. Repeating Top Half or Bottom Half moves a window to a stacked display, the menu bar disk reading can show available or used space, App Switcher separates apps without open windows, Homebrew's Installed list folds dependencies under the packages that need them, and Port Manager marks ports other devices on the network may reach. Settings search keeps every typed letter in the search field, and Clear all permissions and full uninstall report a refused password request instead of claiming success. Fan Control can resume your manual speed or curve after a restart or sleep, and the app chosen to open in place of Music starts playing when Play/Pause opened it.
 
 ### Added
 - Clipboard History images, including older ones, open in the Screenshot Editor from a pencil beside Copy in the history window, Dynamic Island and menu panel, without replacing the current clipboard. Thanks to @samanyudas.
@@ -20,9 +20,11 @@ Clipboard History images open in the Screenshot Editor, the capture preview can 
 - App Switcher's icon row separates apps with open windows from apps without any. Thanks to @samanyudas.
 - Homebrew's Installed list shows the packages you installed by name, with an arrow that expands each one's installed dependencies. A dependency with an update, or one nothing needs any more, keeps its own row. Thanks to @PathGao.
 - Port Manager marks listeners bound to every network interface with an orange globe, so ports other devices on the network may reach stand out from the ones only this Mac can use. Thanks to @shlok1806.
+- Fan Control can bring back your manual speed or curve whenever Vorssaint opens again, such as after a restart, and when the Mac wakes, with Resume after restart or sleep in the Fan Control card. It is off by default, and returning to System stops it from coming back until you apply control again. Thanks to Mower for the feedback.
 
 ### Changed
 - The menu panel opens and closes with the native macOS popover animation. Thanks to @archieamas11.
+- The app chosen under Open instead for Stop Music from opening on its own also starts playing when Play/Pause opened it, once you allow Vorssaint to control that app. Other media keys still only open it. Thanks to Mower for the feedback.
 
 ### Fixed
 - Settings search keeps focus while you type, instead of accepting only the first letter and beeping for the rest. Thanks to @overstock718.
