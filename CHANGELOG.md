@@ -7,7 +7,7 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Summary
-Clipboard History images open in the Screenshot Editor, the capture preview can pin a screenshot directly, and Settings adds Back and Forward buttons. Window Layout adds quarter rows, quarter columns and vertical thirds, smooth scrolling gains an adjustable coast, and the menu panel opens with the native macOS animation. Repeating Top Half or Bottom Half moves a window to a stacked display, the menu bar disk reading can show available or used space, App Switcher separates apps without open windows, and Homebrew's Installed list folds dependencies under the packages that need them. Settings search keeps every typed letter in the search field, and Clear all permissions and full uninstall report a refused password request instead of claiming success.
+Clipboard History images open in the Screenshot Editor, the capture preview can pin a screenshot directly, and Settings adds Back and Forward buttons. Window Layout adds quarter rows, quarter columns and vertical thirds, smooth scrolling gains an adjustable coast, and the menu panel opens with the native macOS animation. Repeating Top Half or Bottom Half moves a window to a stacked display, the menu bar disk reading can show available or used space, App Switcher separates apps without open windows, and Homebrew's Installed list folds dependencies under the packages that need them. Settings search keeps every typed letter in the search field, Clear all permissions and full uninstall report a refused password request instead of claiming success, and Dynamic Island stays open when hovered from a full-screen app on another display.
 
 ### Added
 - Clipboard History images, including older ones, open in the Screenshot Editor from a pencil beside Copy in the history window, Dynamic Island and menu panel, without replacing the current clipboard. Thanks to @samanyudas.
@@ -31,6 +31,7 @@ Clipboard History images open in the Screenshot Editor, the capture preview can 
 - The sound output shortcut no longer reports a failed switch when the only selected output is already playing. Thanks to @PathGao.
 - The radial menu asks for Accessibility based on your saved wheels, so a wheel with only apps and links no longer asks for it and a wheel bound to a mouse button is not missed. Thanks to @PathGao.
 - Bluetooth on sleep no longer queries the Bluetooth controller at every launch when no restore is owed. Thanks to @PathGao.
+- Dynamic Island stays open when you hover it from a full-screen app on a display without focus, instead of closing as soon as that app becomes active.
 
 ## [3.4.0-beta.4] - 2026-09-23
 
