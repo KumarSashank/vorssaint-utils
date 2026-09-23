@@ -7,7 +7,7 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Summary
-Clipboard History images open in the Screenshot Editor, the capture preview can pin a screenshot directly, and Settings adds Back and Forward buttons. Window Layout adds quarter rows, quarter columns and vertical thirds, smooth scrolling gains an adjustable coast, and the menu panel opens with the native macOS animation. Repeating Top Half or Bottom Half moves a window to a stacked display, the menu bar disk reading can show available or used space, App Switcher separates apps without open windows, and Homebrew's Installed list folds dependencies under the packages that need them. Settings search keeps every typed letter in the search field, and Clear all permissions and full uninstall report a refused password request instead of claiming success.
+Clipboard History images open in the Screenshot Editor, the capture preview can pin a screenshot directly, and Settings adds Back and Forward buttons. Window Layout adds quarter rows, quarter columns and vertical thirds, smooth scrolling gains an adjustable coast, and the menu panel opens with the native macOS animation. Repeating Top Half or Bottom Half moves a window to a stacked display, the menu bar disk reading can show available or used space, App Switcher separates apps without open windows, and Homebrew's Installed list folds dependencies under the packages that need them. Maximize windows can leave chosen apps with the native full screen button. Settings search keeps every typed letter in the search field, and Clear all permissions and full uninstall report a refused password request instead of claiming success.
 
 ### Added
 - Clipboard History images, including older ones, open in the Screenshot Editor from a pencil beside Copy in the history window, Dynamic Island and menu panel, without replacing the current clipboard. Thanks to @samanyudas.
@@ -19,6 +19,7 @@ Clipboard History images open in the Screenshot Editor, the capture preview can 
 - The menu bar Disk Usage reading can show available space or used space instead of the used percentage, chosen under Disk display in Monitor settings. Thanks to @maodijim.
 - App Switcher's icon row separates apps with open windows from apps without any. Thanks to @samanyudas.
 - Homebrew's Installed list shows the packages you installed by name, with an arrow that expands each one's installed dependencies. A dependency with an update, or one nothing needs any more, keeps its own row. Thanks to @PathGao.
+- Maximize windows has an exception list in Window Layout settings. In the listed apps, such as games, emulators and video players, the green button keeps entering macOS full screen.
 
 ### Changed
 - The menu panel opens and closes with the native macOS popover animation. Thanks to @archieamas11.

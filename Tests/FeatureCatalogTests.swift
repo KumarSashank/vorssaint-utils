@@ -1691,11 +1691,15 @@ enum FeatureCatalogTests {
         suite.expect(Set(AppFeature.allCases.compactMap(\.settingsDestination.sectionAnchor))
                 == Set(SettingsSectionAnchor.allCases),
                "every declared Settings section anchor is used by a feature destination")
-        suite.expect(AppFeature.windowMaximizer.settingsDestination
-                == FeatureSettingsDestination(.general, sectionAnchor: .panelConfiguration)
-                && AppFeature.mixer.settingsDestination
+        suite.expect(AppFeature.mixer.settingsDestination
                 == FeatureSettingsDestination(.general, sectionAnchor: .panelConfiguration),
                "panel-oriented features land on General panel configuration")
+        suite.expect(AppFeature.windowMaximizer.settingsDestination
+                == FeatureSettingsDestination(.windowLayout, sectionAnchor: .windowMaximizer)
+                && pageVisible(.windowLayout, available: [.windowMaximizer])
+                && !pageVisible(.windowLayout,
+                                available: allFeatures.subtracting([.windowLayout, .windowMaximizer])),
+               "the green button override and its exception list keep the window layout page on their own")
         suite.expect(AppFeature.cleaningMode.settingsDestination
                 == FeatureSettingsDestination(.quickTools, sectionAnchor: .cleaningMode),
                "cleaning mode lands on Quick Tools cleaning mode section")

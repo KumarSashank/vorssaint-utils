@@ -115,7 +115,10 @@ enum SettingsSearchSupport {
               case .feature(let feature) = featureItem.id,
               featureItem.feature == feature,
               pageItem.destination == featureItem.destination else { return false }
-        return FeatureVisibilitySupport.features(for: page) == [feature]
+        // A feature landing on its own section of the page (the green button
+        // override on Window Layout) keeps the page alive without owning it.
+        return FeatureVisibilitySupport.features(for: page)
+            .filter { $0.settingsDestination == FeatureSettingsDestination(page) } == [feature]
     }
 
     /// Where a search or command-bar result should route right now. A
