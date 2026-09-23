@@ -7,10 +7,11 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Summary
-Clipboard History images open in the Screenshot Editor, the capture preview can pin a screenshot directly, and Settings adds Back and Forward buttons. Window Layout adds quarter rows, quarter columns and vertical thirds, smooth scrolling gains an adjustable coast, and the menu panel opens with the native macOS animation. Repeating Top Half or Bottom Half moves a window to a stacked display, the menu bar disk reading can show available or used space, and App Switcher separates apps without open windows. Settings search keeps every typed letter in the search field.
+Clipboard History images open in the Screenshot Editor, copied color values show a swatch, the capture preview can pin a screenshot directly, and Settings adds Back and Forward buttons. Window Layout adds quarter rows, quarter columns and vertical thirds, smooth scrolling gains an adjustable coast, and the menu panel opens with the native macOS animation. Repeating Top Half or Bottom Half moves a window to a stacked display, the menu bar disk reading can show available or used space, and App Switcher separates apps without open windows. Settings search keeps every typed letter in the search field.
 
 ### Added
 - Clipboard History images, including older ones, open in the Screenshot Editor from a pencil beside Copy in the history window, Dynamic Island and menu panel, without replacing the current clipboard. Thanks to @samanyudas.
+- Clipboard History shows a small color swatch before an entry that is a color value, such as #00BC7D, rgb(0, 188, 125) or hsl(160, 100%, 37%), in the history window, Dynamic Island and menu panel.
 - The screenshot preview can pin a capture above other windows without opening the editor. Thanks to @samanyudas.
 - Settings shows Back and Forward buttons in its toolbar. Thanks to @samanyudas.
 - Window Layout splits the screen into four full-width rows for tall displays or four full-height columns for wide ones, and adds top, middle and bottom thirds with top and bottom two-thirds. New placements start without a shortcut. Thanks to @DocEmmetBrown and @samueljim.
